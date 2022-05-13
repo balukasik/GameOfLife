@@ -5,38 +5,43 @@ import java.util.Scanner;
 
 public class Board {
 
-    private int x,y;
+    private final int x, y;
     private int[][] data;
     private int Round = 0;
 
-    public Board(int x, int y, int[][]data){
+    public Board(int x, int y, int[][] data) {
         this.x = x;
         this.y = y;
         this.data = data;
     }
 
-    public int getX(){
+    public void setData(int[][] data) {
+        this.data = data;
+    }
+
+    public int getX() {
         return this.x;
     }
 
-    public int getY(){
+    public int getY() {
         return this.y;
     }
 
-    public int[][] getData(){
+    public int[][] getData() {
         return this.data;
     }
 
     public int getRound() {
         return this.Round;
     }
-    public void nextRound(){
+
+    public void nextRound() {
         this.Round++;
     }
 
     public static Board loadBoard(String filename) throws FileNotFoundException {
 
-        int x,y;
+        int x, y;
         File f = new File(filename);
         Scanner scanner = new Scanner(f).useLocale(Locale.ENGLISH);
         x = scanner.nextInt();
@@ -47,19 +52,47 @@ public class Board {
                 data[c][r] = scanner.nextInt();
             }
         }
-        return new Board(x,y,data);
+        return new Board(x, y, data);
     }
 
-    public static void showBoard(Board board){
+    public static void showBoard(Board board) {
         Utils.clearScreen();
-        System.out.println("Round:" + board.getRound());
+        System.out.println("Round: " + board.getRound());
         System.out.println();
-        for(int y = 0; y < board.getY();y++){
+        for (int y = 0; y < board.getY(); y++) {
             System.out.print("  ");
-            for(int x = 0;x < board.getX();x++){
+            for (int x = 0; x < board.getX(); x++) {
                 System.out.print(board.getData()[x][y] + " ");
             }
             System.out.println();
         }
+        System.out.println();
+    }
+
+    public int getActiveNeighbours(int x, int y) {
+        int neighbours = 0;
+        neighbours += checkNeighbour(x - 1, y - 1);
+        neighbours += checkNeighbour(x - 1, y);
+        neighbours += checkNeighbour(x - 1, y + 1);
+        neighbours += checkNeighbour(x, y - 1);
+        neighbours += checkNeighbour(x, y + 1);
+        neighbours += checkNeighbour(x + 1, y - 1);
+        neighbours += checkNeighbour(x + 1, y);
+        neighbours += checkNeighbour(x + 1, y + 1);
+        return neighbours;
+    }
+
+    private int checkNeighbour(int x, int y) {
+        if (x < 0) {
+            x = this.getX() - 1;
+        } else if (x == this.getX()) {
+            x = 0;
+        }
+        if (y < 0) {
+            y = this.getY() - 1;
+        } else if (y == this.getY()) {
+            y = 0;
+        }
+        return this.getData()[x][y];
     }
 }
