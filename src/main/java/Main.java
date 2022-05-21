@@ -2,7 +2,7 @@ import java.io.FileNotFoundException;
 
 public class Main {
     public static void main(String[] args){
-        String filename = "C:/Users/baluk/GameOfLife/data/test.txt"; //TODO ARGS
+        String filename = "data/test.txt"; //TODO ARGS
         int rounds = 100;
         int workers = 8;
         try {

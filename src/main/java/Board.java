@@ -56,7 +56,6 @@ public class Board {
     }
 
     public static void showBoard(Board board) {
-        Utils.clearScreen();
         System.out.println("Round: " + board.getRound());
         System.out.println();
         for (int y = 0; y < board.getY(); y++) {
@@ -83,15 +82,8 @@ public class Board {
     }
 
     private int checkNeighbour(int x, int y) {
-        if (x < 0) {
-            x = this.getX() - 1;
-        } else if (x == this.getX()) {
-            x = 0;
-        }
-        if (y < 0) {
-            y = this.getY() - 1;
-        } else if (y == this.getY()) {
-            y = 0;
+        if (x < 0 || y < 0 || x == this.getX() || y == this.getY()) {
+            return 0;
         }
         return this.getData()[x][y];
     }
