@@ -1,31 +1,53 @@
 public class Worker extends Thread {
 
-    public void run(Board board) {
-        calculate(board);
+    private final Board board;
+    private final int[] rowsRange;
+    private final int[] colsRange;
+    private final int[][] workerResult;
+
+    public Worker(Board board, int[] rowsRange, int[] colsRange) {
+        this.board = board;
+        this.rowsRange = rowsRange;
+        this.colsRange = colsRange;
+        this.workerResult = new int[board.getX()][board.getY()];
     }
 
-    private void calculate(Board board) {
-        int data[][] = new int[board.getX()][board.getY()];
+    public void run() {
+        calculate();
+    }
+
+    private void calculate() {
         int neighbours, cell;
-        for (int x = 0; x < board.getX(); x++) {
-            for (int y = 0; y < board.getY(); y++) {
+        for (int x = rowsRange[0]; x < rowsRange[1]+1; x++) {
+            for (int y = colsRange[0]; y < colsRange[1]+1; y++) {
                 neighbours = board.getActiveNeighbours(x,y);
                 cell = board.getData()[x][y];
                 if(cell == 1){
-                    if(neighbours <2 || neighbours > 4) {
-                        data[x][y] = 0;
+                    if(neighbours < 2 || neighbours > 3) {
+                        workerResult[x][y] = 0;
                     }else{
-                        data[x][y] = 1;
+                        workerResult[x][y] = 1;
                     }
                 }else{
                     if(neighbours == 3){
-                        data[x][y] = 1;
+                        workerResult[x][y] = 1;
                     }else{
-                        data[x][y] = 0;
+                        workerResult[x][y] = 0;
                     }
                 }
             }
         }
-        board.setData(data);
+    }
+
+    public int[][] getWorkerResult() {
+        return this.workerResult;
+    }
+
+    public int[] getRowsRange() {
+        return this.rowsRange;
+    }
+
+    public int[] getColsRange() {
+        return this.colsRange;
     }
 }
