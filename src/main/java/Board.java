@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Board {
+public final class Board {
 
     private final int x, y;
     private int[][] data;
@@ -14,7 +14,15 @@ public class Board {
         this.x = x;
         this.y = y;
         this.data = data;
+        Round = 0;
     }
+    public Board(int x, int y, int[][] data, int round) {
+        this.x = x;
+        this.y = y;
+        this.data = data;
+        Round = round;
+    }
+
 
     public void setData(int[][] data) {
         this.data = data;

@@ -32,8 +32,9 @@ public class Main {
                 service.prepareWorkers();
                 service.startWorkers();
                 int[][] newBoard = service.getNextRoundBoard();
-                board.setData(newBoard);
-                board.nextRound();
+                board = new Board(board.getX(), board.getY(),newBoard,board.getRound() + 1);
+                //board.setData(newBoard);
+                //board.nextRound();
                 //Thread.sleep(1000);
             }
 
